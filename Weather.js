@@ -1,25 +1,39 @@
 import React from 'react';
 import propTypes from 'prop-types';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, StatusBar } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { LinearGradient } from 'expo-linear-gradient';
+
+const weatherOptions = {
+	Rain: {
+		iconName: 'rainy',
+	},
+	Snow: {
+		iconName: 'snow',
+		gradient: ['#83a4d4', '#b6fbff']
+	}
+}
 
 export default function Weather({temp, condition}) {
 	return (
-		<View style={styles.container}>
+			<LinearGradient
+				  colors={weatherOptions[condition].gradient}
+				  style={styles.container}>
+				<StatusBar barStyle="light-content" />
 			<View style={styles.halfContainer}>
-				<Ionicons name="rainy" size={96} />
-				<Text style={styles.temp}>{temp}°</Text>
+				  <Ionicons name={weatherOptions[condition].iconName} size={96} color="white"/>
+				  <Text style={styles.temp}>{temp}°</Text>
 			</View>
-			<View style={styles.halfContainer}>
+			     <View style={styles.halfContainer}>
 
-			</View>
-		</View>
+			     </View>
+			</LinearGradient>
 	);
 }
 
 Weather.propType = {
     temp: propTypes.number.isRequired,
-	  condition: propTypes.oneOfType(["Thunderstorm", "Drizzle", "Rain", "Snow", "Dust", "Smoke", "Haze", "Mist", "Clear", "Clouds"]).isRequired,
+	  condition: propTypes.oneOf(["Thunderstorm", "Drizzle", "Rain", "Snow", "Dust", "Smoke", "Haze", "Mist", "Clear", "Clouds"]).isRequired,
 }
 
 const styles = StyleSheet.create({
@@ -35,6 +49,7 @@ const styles = StyleSheet.create({
 	},
 	temp: {
 		fontSize: 42,
+		color: "white",
 	}
 })
 
